@@ -6,7 +6,7 @@ import (
 	"github.com/raviraj-srib/go-project/corporate-directory/src/fileops"
 	"github.com/raviraj-srib/go-project/corporate-directory/src/model"
 	"github.com/raviraj-srib/go-project/corporate-directory/src/service"
-	"github.com/raviraj-srib/go-project/corporate-directory/utils"
+	"github.com/raviraj-srib/go-project/corporate-directory/src/utils"
 )
 
 const (
@@ -22,14 +22,16 @@ number of engineers at current level = totalNumberOfEmployeeAtCurrentLevel * lev
 
 mulFactor is varying at each level from MIN_MUL_FACTOR to MAX_MUL_FACTOR
 */
+
+//TODO: Refactor this method
 func populateEmployeeData() {
 	curEmpIndex := 0
 	curLevel := 1
 
 	queue := utils.Queue{}
 	allEmpNames := fileops.ReadFile()
-	//TODO: check for end
-	//totalEmployeeCount := len(allEmpNames)
+	totalEmployeeCount := len(allEmpNames)
+	isDataExhausted := false
 
 	queue.Add(service.GetDirSvcImpl().GetCeo(), curLevel)
 
@@ -44,15 +46,33 @@ func populateEmployeeData() {
 
 		for ; totalManagerCount > 0; totalManagerCount-- {
 			newMgr := &model.Manager{}
+			curEmpIndex++
+			if curEmpIndex >= totalEmployeeCount {
+				isDataExhausted = true
+				break
+			}
 			newMgr.Create(allEmpNames[curEmpIndex])
 			manager.AddReportee(newMgr)
 			queue.Add(newMgr, curLevel)
 		}
+
+		if isDataExhausted {
+			break
+		}
+
 		for ; totalEngineerCount > 0; totalEngineerCount-- {
 			eng := &model.Engineer{}
+			curEmpIndex++
+			if curEmpIndex >= totalEmployeeCount {
+				isDataExhausted = true
+				break
+			}
 			eng.Create(allEmpNames[curEmpIndex])
 			manager.AddReportee(eng)
 		}
 
+		if isDataExhausted {
+			break
+		}
 	}
 }

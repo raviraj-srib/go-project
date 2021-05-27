@@ -5,14 +5,27 @@ import (
 	"github.com/raviraj-srib/go-project/corporate-directory/src/model"
 )
 
+func (service directoryServiceImpl) GetCeo() *model.Manager {
+	return service.ceo
+}
+
 func (service directoryServiceImpl) GetClosestCommonManager(empId1 string, empId2 string) string {
-	logger.Error("Method not yet implemented")
-	return ""
+
+	return service.getClosetManagerUsingLCA(empId1, empId2)
 
 }
 
 func (service directoryServiceImpl) AddEmployee(emp model.Node, mgrId string) {
-	logger.Error("Method not yet implemented")
+	mgr := service.searchEmployee(mgrId)
+
+	if mgr == nil || mgr.IsManager() {
+		logger.Error("Manager not found with id: " + mgrId)
+	} else {
+		manager, _ := mgr.(*model.Manager)
+		manager.AddReportee(emp)
+		logger.Debug("Employee with id :" + emp.GetId() + " added successfully")
+	}
+
 }
 
 func (service directoryServiceImpl) GetEmployeeDetails(empId string) model.Node {
