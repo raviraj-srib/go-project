@@ -2,16 +2,18 @@ package controller
 
 import (
 	"math/rand"
+	"strconv"
 
 	"github.com/raviraj-srib/go-project/corporate-directory/src/fileops"
+	"github.com/raviraj-srib/go-project/corporate-directory/src/logger"
 	"github.com/raviraj-srib/go-project/corporate-directory/src/model"
 	"github.com/raviraj-srib/go-project/corporate-directory/src/service"
 	"github.com/raviraj-srib/go-project/corporate-directory/src/utils"
 )
 
 const (
-	MIN_MUL_FACTOR = 7
-	MAX_MUL_FACTOR = 12
+	MIN_MUL_FACTOR = 3
+	MAX_MUL_FACTOR = 7
 )
 
 /*
@@ -37,14 +39,18 @@ func populateEmployeeData() {
 
 	for !queue.IsEmpty() {
 		data := queue.Remove()
-		totalEmployeeAtCurrentLevel := data.GetLevel()*rand.Intn(MIN_MUL_FACTOR-MIN_MUL_FACTOR) + MIN_MUL_FACTOR
-		totalEngineerCount := int(totalEmployeeAtCurrentLevel * totalEmployeeAtCurrentLevel / 100)
-		totalManagerCount := totalEmployeeAtCurrentLevel - totalEngineerCount
-		curLevel++
-
 		manager := data.GetManagerField()
 
-		for ; totalManagerCount > 0; totalManagerCount-- {
+		mulFactor := rand.Intn(MAX_MUL_FACTOR-MIN_MUL_FACTOR) + MIN_MUL_FACTOR
+		empCount := data.GetLevel() * mulFactor
+
+		//14% of 14 emp
+		engCount := data.GetLevel()
+		mgrCount := empCount - engCount
+		logger.Debug(" Id: " + manager.GetId() + "  -->>" + "CurLevel: " + strconv.Itoa(data.GetLevel()) + " MulFactor: " + strconv.Itoa(mulFactor) + " EmpCount: " + strconv.Itoa(empCount) + " MgrCount: " + strconv.Itoa(mgrCount) + " EngCount: " + strconv.Itoa(engCount))
+
+		curLevel++
+		for ; mgrCount > 0; mgrCount-- {
 			newMgr := &model.Manager{}
 			curEmpIndex++
 			if curEmpIndex >= totalEmployeeCount {
@@ -60,7 +66,7 @@ func populateEmployeeData() {
 			break
 		}
 
-		for ; totalEngineerCount > 0; totalEngineerCount-- {
+		for ; engCount > 0; engCount-- {
 			eng := &model.Engineer{}
 			curEmpIndex++
 			if curEmpIndex >= totalEmployeeCount {

@@ -3,6 +3,8 @@ package model
 import (
 	"fmt"
 	"strconv"
+
+	"github.com/raviraj-srib/go-project/corporate-directory/src/logger"
 )
 
 var employeeId = 0
@@ -41,8 +43,9 @@ func (m *Engineer) IsManager() bool {
 }
 
 func (e *Employee) fillEmployeeDetails(name string) {
-	e.id = e.generateEmployId()
 	e.info = createEmployInfo(name)
+	e.id = e.generateEmployId()
+	logger.Trace("Filled Name: " + name + " Emp id: " + e.id + " info: " + e.info.name)
 }
 
 //Generate EmployeeId across Organizaition
@@ -50,6 +53,7 @@ func (e *Employee) fillEmployeeDetails(name string) {
 //to employee details
 func (e *Employee) generateEmployId() string {
 	employeeId++
+	//return strconv.Itoa(employeeId) + "-" + e.GetName()
 	return strconv.Itoa(employeeId)
 }
 
@@ -58,11 +62,20 @@ func (e *Employee) String() {
 }
 
 func (e *Employee) GetName() string {
-	return e.info.name
+	name := "Unknown"
 
+	if e == nil {
+		logger.Warn("GetName called on nil employee Id: " + e.id)
+	} else if e.info == nil {
+		logger.Warn("GetName called on nil employee info Id: " + e.id)
+	} else {
+		name = e.info.name
+	}
+
+	return name
 }
 
 //Currently only name is being populated
-func createEmployInfo(name string) EmpInfo {
-	return EmpInfo{name: name}
+func createEmployInfo(name string) *EmpInfo {
+	return &EmpInfo{name: name}
 }

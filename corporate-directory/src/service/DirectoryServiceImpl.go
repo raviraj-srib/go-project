@@ -60,5 +60,5 @@ func (service directoryServiceImpl) RemoveEmployee(empId string) {
 
 func (service directoryServiceImpl) PrintEmployeeHierarchy(empId string) {
 	emp := service.searchEmployee(empId)
-	printTreeInBFS(emp)
+	printCompleteData(emp)
 }

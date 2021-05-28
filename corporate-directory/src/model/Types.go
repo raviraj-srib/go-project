@@ -17,7 +17,7 @@ type Manager struct {
 
 type Employee struct {
 	id   string
-	info EmpInfo
+	info *EmpInfo
 }
 
 type EmpInfo struct {

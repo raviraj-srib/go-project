@@ -1,6 +1,8 @@
 package service
 
 import (
+	"strings"
+
 	"github.com/raviraj-srib/go-project/corporate-directory/src/logger"
 	"github.com/raviraj-srib/go-project/corporate-directory/src/model"
 )
@@ -81,7 +83,27 @@ func getLCA(curEmp model.Node, empId1 string, empId2 string) model.Node {
 	return lca
 }
 
-//TODO: Needs to be implemented
-func printTreeInBFS(emp model.Node) {
+//TODO: Revisit for approach
+func printCompleteData(emp model.Node) {
+	if emp.IsManager() {
+		manager, _ := emp.(*model.Manager)
+		logger.Debug("ManagerId: " + manager.GetId() + " -->> Reportees: " + printAllKeys(manager.GetReportee()))
+		for _, reportee := range manager.GetReportee() {
+			printCompleteData(reportee)
+		}
+	} else {
+		logger.Debug("EngineerId: " + emp.GetId())
+	}
 
+}
+
+func printAllKeys(empMap map[string]model.Node) string {
+	var data strings.Builder
+
+	for key, _ := range empMap {
+		data.WriteString(key + " ")
+	}
+	//	data.WriteString("\n")
+
+	return data.String()
 }

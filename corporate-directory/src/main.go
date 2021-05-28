@@ -8,13 +8,16 @@ import (
 )
 
 func main() {
-	fmt.Println("************DIRECTORY APPLICATION************")
+	fmt.Println("\n************DIRECTORY APPLICATION START************\n")
+
 	controller.StartApplication()
 
 	dirSvcImpl := service.GetDirSvcImpl()
 	ceo := dirSvcImpl.GetCeo()
 	dirSvcImpl.PrintEmployeeHierarchy(ceo.GetId())
 	testFeature(dirSvcImpl)
+
+	fmt.Println("\n************DIRECTORY APPLICATION END************\n")
 
 }
 
