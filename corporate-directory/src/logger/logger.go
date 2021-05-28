@@ -5,7 +5,7 @@ import (
 )
 
 const (
-	DEFAULT_LOG_LEVEL = log.InfoLevel
+	DEFAULT_LOG_LEVEL = log.DebugLevel
 )
 
 func (u UTCFormatter) Format(e *log.Entry) ([]byte, error) {
