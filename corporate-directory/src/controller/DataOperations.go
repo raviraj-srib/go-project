@@ -2,7 +2,6 @@ package controller
 
 import (
 	"math/rand"
-	"strconv"
 
 	"github.com/raviraj-srib/go-project/corporate-directory/src/fileops"
 	"github.com/raviraj-srib/go-project/corporate-directory/src/logger"
@@ -47,8 +46,7 @@ func populateEmployeeData() {
 		//14% of 14 emp
 		engCount := data.GetLevel()
 		mgrCount := empCount - engCount
-		logger.Debug(" Id: " + manager.GetId() + "  -->>" + "CurLevel: " + strconv.Itoa(data.GetLevel()) + " MulFactor: " + strconv.Itoa(mulFactor) + " EmpCount: " + strconv.Itoa(empCount) + " MgrCount: " + strconv.Itoa(mgrCount) + " EngCount: " + strconv.Itoa(engCount))
-
+		logger.Debug("Id: %s CurLevel: %d MulFactor: %d  EmpCount:  %d  MgrCount:  %d EngCount: %d", manager.GetId(), data.GetLevel(), mulFactor, empCount, mgrCount, engCount)
 		curLevel++
 		for ; mgrCount > 0; mgrCount-- {
 			newMgr := &model.Manager{}

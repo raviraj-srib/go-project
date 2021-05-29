@@ -26,6 +26,10 @@ func (m *Manager) AddReportee(node Node) {
 	m.reportees[node.GetId()] = node
 }
 
+func (m *Manager) RemoveReportee(empId string) {
+	delete(m.reportees, empId)
+}
+
 func (m *Manager) GetReportee() map[string]Node {
 	return m.reportees
 }
@@ -45,7 +49,7 @@ func (m *Engineer) IsManager() bool {
 func (e *Employee) fillEmployeeDetails(name string) {
 	e.info = createEmployInfo(name)
 	e.id = e.generateEmployId()
-	logger.Trace("Filled Name: " + name + " Emp id: " + e.id + " info: " + e.info.name)
+	logger.Trace("Filled Name: %s  Emp id: %s  Emp Info: %s", name, e.id, e.info)
 }
 
 //Generate EmployeeId across Organizaition
@@ -65,9 +69,9 @@ func (e *Employee) GetName() string {
 	name := "Unknown"
 
 	if e == nil {
-		logger.Warn("GetName called on nil employee Id: " + e.id)
+		logger.Warn("GetName called on nil employee Id: %s", e.id)
 	} else if e.info == nil {
-		logger.Warn("GetName called on nil employee info Id: " + e.id)
+		logger.Warn("GetName called on nil employee info Id: %s", e.id)
 	} else {
 		name = e.info.name
 	}

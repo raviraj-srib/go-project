@@ -12,8 +12,19 @@ func (service directoryServiceImpl) getClosetManagerUsingLCA(empId1 string, empI
 	if nil != lca {
 		return lca.GetId()
 	} else {
-		logger.Error("Not able to find both employee in database, emp1:" + empId1 + " emp2:" + empId2)
+		logger.Error("Not able to find both employee in database, emp1: %s emp2: %s", empId1, empId2)
 		return "-1"
+	}
+}
+
+func (service directoryServiceImpl) getManagerFromEmpId(empId string) (*model.Manager, bool) {
+	mgr := service.searchEmployee(empId)
+	if mgr == nil || mgr.IsManager() {
+		logger.Error("Manager not found with id: %s", empId)
+		return nil, false
+	} else {
+		oldManager, ok := mgr.(*model.Manager)
+		return oldManager, ok
 	}
 }
 
@@ -87,12 +98,12 @@ func getLCA(curEmp model.Node, empId1 string, empId2 string) model.Node {
 func printCompleteData(emp model.Node) {
 	if emp.IsManager() {
 		manager, _ := emp.(*model.Manager)
-		logger.Debug("ManagerId: " + manager.GetId() + " -->> Reportees: " + printAllKeys(manager.GetReportee()))
+		logger.Debug("ManagerId: %s  -->> Reportees: %s", manager.GetId(), printAllKeys(manager.GetReportee()))
 		for _, reportee := range manager.GetReportee() {
 			printCompleteData(reportee)
 		}
 	} else {
-		logger.Debug("EngineerId: " + emp.GetId())
+		logger.Debug("EngineerId: %s", emp.GetId())
 	}
 
 }

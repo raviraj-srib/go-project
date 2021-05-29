@@ -1,7 +1,11 @@
-import "testing"
+package servicetest
+
+import (
+	"testing"
+
+	"github.com/stretchr/testify/assert"
+)
 
 func TestCommonClosestManager(t *testing.T) {
-	//	t.Error() // to indicate test failed
+	assert.Equal(t, 4, 4)
 }
-
-

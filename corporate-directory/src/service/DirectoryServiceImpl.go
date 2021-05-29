@@ -10,48 +10,59 @@ func (service directoryServiceImpl) GetCeo() *model.Manager {
 }
 
 func (service directoryServiceImpl) GetClosestCommonManager(empId1 string, empId2 string) string {
-
 	return service.getClosetManagerUsingLCA(empId1, empId2)
-
 }
 
 func (service directoryServiceImpl) AddEmployee(emp model.Node, mgrId string) {
-	mgr := service.searchEmployee(mgrId)
-
-	if mgr == nil || mgr.IsManager() {
-		logger.Error("Manager not found with id: " + mgrId)
+	mgr, ok := service.getManagerFromEmpId(mgrId)
+	if ok {
+		mgr.AddReportee(emp)
+		logger.Debug("Employee with id : %s added successfully to manager:  %s", emp.GetId(), mgrId)
 	} else {
-		manager, _ := mgr.(*model.Manager)
-		manager.AddReportee(emp)
-		logger.Debug("Employee with id :" + emp.GetId() + " added successfully")
+		logger.Error("Manager not found with id: %s", mgrId)
 	}
-
 }
 
 func (service directoryServiceImpl) GetEmployeeDetails(empId string) model.Node {
 	return service.searchEmployee(empId)
 }
 
-func (service directoryServiceImpl) AssignReportee(mgrId string, reportees model.Node) {
-	logger.Error("Method not yet implemented")
-
-}
-
-func (service directoryServiceImpl) AssignReportees(mgrId string, reportees []model.Node) {
-	logger.Error("Method not yet implemented")
-
+func (service directoryServiceImpl) AssignReportees(mgrId string, reportee []model.Node) {
+	mgr, ok := service.getManagerFromEmpId(mgrId)
+	if ok {
+		for _, emp := range reportee {
+			mgr.AddReportee(emp)
+			logger.Debug("Employee with id : %s added successfully to manager: %s", emp.GetId(), mgrId)
+		}
+	} else {
+		logger.Error("Manager not found with id: %s", mgrId)
+	}
 }
 
 func (service directoryServiceImpl) MoveAllReporteeToOtherManager(curmgrId string, newmgrId string) {
-	logger.Error("Method not yet implemented")
+	curMgr, isCurManagerPresent := service.getManagerFromEmpId(curmgrId)
+	newMgr, isNewManagerPresent := service.getManagerFromEmpId(newmgrId)
+	if isCurManagerPresent && isNewManagerPresent {
+		repotree := curMgr.GetReportee()
+		for empId, emp := range repotree {
+			curMgr.RemoveReportee(empId)
+			newMgr.AddReportee(emp)
+		}
+	} else {
+		logger.Error("Managers/Emp not present")
+	}
 }
 
 func (service directoryServiceImpl) ChangeManager(empId string, oldmgrId string, newmgrId string) {
-	logger.Error("Method not yet implemented")
-}
-
-func (service directoryServiceImpl) PromoteToManager(empId string, reportees []model.Employee) {
-	logger.Error("Method not yet implemented")
+	oldMgr, isOldManagerPresent := service.getManagerFromEmpId(oldmgrId)
+	newMgr, isNewManagerPresent := service.getManagerFromEmpId(newmgrId)
+	emp, isEmployeePresent := service.getManagerFromEmpId(empId)
+	if isOldManagerPresent && isNewManagerPresent && isEmployeePresent {
+		oldMgr.RemoveReportee(empId)
+		newMgr.AddReportee(emp)
+	} else {
+		logger.Error("Managers/Emp not present")
+	}
 }
 
 func (service directoryServiceImpl) RemoveEmployee(empId string) {

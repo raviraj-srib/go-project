@@ -14,9 +14,6 @@ type DirectoryService interface {
 	// Returns employee Details given its employee id
 	GetEmployeeDetails(employeeId string) model.Node
 
-	//Assign a single employee to its manager
-	AssignReportee(managerId string, reportees model.Node)
-
 	//Assign set of employees to manager
 	AssignReportees(managerId string, reportees []model.Node)
 
@@ -25,9 +22,6 @@ type DirectoryService interface {
 
 	//change employee manager, mostly incase of project/team change
 	ChangeManager(employeeId string, oldManagerId string, newManagerId string)
-
-	//Employee getting promoted to manager
-	PromoteToManager(employeeId string, reportees []model.Employee)
 
 	//Remove the employee from directory, incase of leaving the organisation
 	RemoveEmployee(employeeId string)

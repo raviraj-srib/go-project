@@ -1,48 +1,69 @@
 package logger
 
 import (
-	log "github.com/sirupsen/logrus"
+	"fmt"
+	"runtime"
+	"strings"
+
+	"github.com/sirupsen/logrus"
 )
 
 const (
-	DEFAULT_LOG_LEVEL = log.DebugLevel
+	DEFAULT_LOG_LEVEL = logrus.DebugLevel
 )
 
-func (u UTCFormatter) Format(e *log.Entry) ([]byte, error) {
-	e.Time = e.Time.UTC()
-	return u.Formatter.Format(e)
-}
+var log *logrus.Logger
 
 func init() {
-	//log.SetFormatter(UTCFormatter{&log.JSONFormatter{}})
-	log.SetFormatter(&log.TextFormatter{})
+	log = logrus.New()
+	log.SetReportCaller(true)
+	var textFormatter = new(logrus.TextFormatter)
+	textFormatter.TimestampFormat = "2006-01-02 15:04:05"
+	textFormatter.ForceColors = true
+	textFormatter.FullTimestamp = true
+	textFormatter.CallerPrettyfier = func(f *runtime.Frame) (string, string) {
+		if pc, file, line, ok := runtime.Caller(12); ok {
+			file = file[strings.LastIndex(file, "/")+1:]
+			funcName := runtime.FuncForPC(pc).Name()
+			funcName = funcName[strings.LastIndex(funcName, ".")+1:]
+			return fmt.Sprintf("[%s:%d]", file, line), "[" + funcName + "()]"
+		}
+		return "", ""
+	}
+
+	log.SetFormatter(textFormatter)
+
 	log.SetLevel(DEFAULT_LOG_LEVEL)
 }
 
-func Trace(data string) {
-	log.Trace(data)
+func Print(fromat string, data ...interface{}) {
+	log.Printf(fromat, data)
 }
 
-func Debug(data string) {
-	log.Debug(data)
+func Trace(fromat string, data ...interface{}) {
+	log.Tracef(fromat, data)
 }
 
-func Info(data interface{}) {
-	log.Info(data)
+func Debug(fromat string, data ...interface{}) {
+	log.Debugf(fromat, data)
 }
 
-func Warn(data string) {
-	log.Warn(data)
+func Info(fromat string, data ...interface{}) {
+	log.Infof(fromat, data)
 }
 
-func Error(data string) {
-	log.Error(data)
+func Warn(fromat string, data ...interface{}) {
+	log.Warnf(fromat, data)
 }
 
-func Fatal(data string) {
-	log.Fatal(data)
+func Error(fromat string, data ...interface{}) {
+	log.Errorf(fromat, data)
 }
 
-func Panic(data string) {
-	log.Panic(data)
+func Fatal(fromat string, data ...interface{}) {
+	log.Fatalf(fromat, data)
+}
+
+func Panic(fromat string, data ...interface{}) {
+	log.Panicf(fromat, data)
 }
