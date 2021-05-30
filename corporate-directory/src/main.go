@@ -3,14 +3,14 @@ package main
 import (
 	"fmt"
 
-	"github.com/raviraj-srib/go-project/corporate-directory/src/controller"
+	"github.com/raviraj-srib/go-project/corporate-directory/src/app"
 	"github.com/raviraj-srib/go-project/corporate-directory/src/service"
 )
 
 func main() {
 	fmt.Println("\n************DIRECTORY APPLICATION START************\n")
 
-	controller.StartApplication()
+	app.StartApplication()
 
 	dirSvcImpl := service.GetDirSvcImpl()
 	ceo := dirSvcImpl.GetCeo()

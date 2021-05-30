@@ -114,7 +114,6 @@ func printAllKeys(empMap map[string]model.Node) string {
 	for key, _ := range empMap {
 		data.WriteString(key + " ")
 	}
-	//	data.WriteString("\n")
 
 	return data.String()
 }

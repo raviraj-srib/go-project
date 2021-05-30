@@ -1,4 +1,4 @@
-package controller
+package dataops
 
 import (
 	"math/rand"
@@ -25,7 +25,7 @@ mulFactor is varying at each level from MIN_MUL_FACTOR to MAX_MUL_FACTOR
 */
 
 //TODO: Refactor this method
-func populateEmployeeData() {
+func PopulateEmployeeData() {
 	curEmpIndex := 0
 	curLevel := 1
 

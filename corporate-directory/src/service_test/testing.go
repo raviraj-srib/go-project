@@ -1,0 +1,5 @@
+package servicetest
+
+func generateDummyEmployees() {
+
+}
