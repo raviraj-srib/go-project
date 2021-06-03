@@ -39,37 +39,33 @@ func init() {
 }
 
 func Print(format string, data ...interface{}) {
-	log.Printf(format, data)
+	log.Printf(format, data...)
 }
 
 func Trace(format string, data ...interface{}) {
-	log.Tracef(format, data)
+	log.Tracef(format, data...)
 }
 
 func Debug(format string, data ...interface{}) {
-	fmt.Println("\nFormat: ", format)
-	fmt.Println("Data: ", data)
-
-	fmt.Printf(format, data)
-	//log.Debugf(format, data)
+	log.Debugf(format, data...)
 }
 
 func Info(format string, data ...interface{}) {
-	log.Infof(format, data)
+	log.Infof(format, data...)
 }
 
 func Warn(format string, data ...interface{}) {
-	log.Warnf(format, data)
+	log.Warnf(format, data...)
 }
 
 func Error(format string, data ...interface{}) {
-	log.Errorf(format, data)
+	log.Errorf(format, data...)
 }
 
 func Fatal(format string, data ...interface{}) {
-	log.Fatalf(format, data)
+	log.Fatalf(format, data...)
 }
 
 func Panic(format string, data ...interface{}) {
-	log.Panicf(format, data)
+	log.Panicf(format, data...)
 }

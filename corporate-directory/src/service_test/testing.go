@@ -40,9 +40,9 @@ func generateDummyEmployees() {
 	serviceImpl.AddEmployee(mgr, "2")
 
 	//Adding 6 -->> mgr -->> 2
-	mgr = &model.Manager{}
-	mgr.Create(empName)
-	serviceImpl.AddEmployee(mgr, "2")
+	emp := &model.Engineer{}
+	emp.Create(empName)
+	serviceImpl.AddEmployee(emp, "2")
 
 	//Adding 7 -->> mgr -->> 3
 	mgr = &model.Manager{}
@@ -50,7 +50,7 @@ func generateDummyEmployees() {
 	serviceImpl.AddEmployee(mgr, "3")
 
 	//Adding 8 -->> mgr -->> 4
-	emp := &model.Engineer{}
+	emp = &model.Engineer{}
 	emp.Create(empName)
 	serviceImpl.AddEmployee(emp, "4")
 

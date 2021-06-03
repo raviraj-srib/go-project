@@ -17,8 +17,7 @@ func (service directoryServiceImpl) AddEmployee(emp model.Node, mgrId string) {
 	mgr, ok := service.getManagerFromEmpId(mgrId)
 	if ok {
 		mgr.AddReportee(emp)
-		logger.Debug("Employee with id : %s added successfully to manager: ", emp.GetId(), mgrId)
-		//service.PrintCompleteEmployeeHierarchy()
+		logger.Debug("Employee with id : %s added successfully to manager: %s", emp.GetId(), mgrId)
 	} else {
 		logger.Error("Manager not found with id: %s", mgrId)
 	}

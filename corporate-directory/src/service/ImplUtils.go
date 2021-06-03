@@ -1,7 +1,6 @@
 package service
 
 import (
-	"fmt"
 	"strings"
 
 	"github.com/raviraj-srib/go-project/corporate-directory/src/logger"
@@ -106,7 +105,7 @@ func printCompleteData(emp model.Node, level int) {
 			printCompleteData(reportee, level+1)
 		}
 	} else {
-		fmt.Printf("Level: %d EngineerId: %s", level, emp.GetId())
+		logger.Debug("Level: %d EngineerId: %s", level, emp.GetId())
 	}
 
 }
