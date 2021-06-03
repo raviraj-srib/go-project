@@ -10,6 +10,7 @@ import (
 
 const (
 	DEFAULT_LOG_LEVEL = logrus.DebugLevel
+	FUNC_DEPTH        = 10
 )
 
 var log *logrus.Logger
@@ -21,8 +22,9 @@ func init() {
 	textFormatter.TimestampFormat = "2006-01-02 15:04:05"
 	textFormatter.ForceColors = true
 	textFormatter.FullTimestamp = true
+
 	textFormatter.CallerPrettyfier = func(f *runtime.Frame) (string, string) {
-		if pc, file, line, ok := runtime.Caller(12); ok {
+		if pc, file, line, ok := runtime.Caller(FUNC_DEPTH); ok {
 			file = file[strings.LastIndex(file, "/")+1:]
 			funcName := runtime.FuncForPC(pc).Name()
 			funcName = funcName[strings.LastIndex(funcName, ".")+1:]
@@ -36,34 +38,38 @@ func init() {
 	log.SetLevel(DEFAULT_LOG_LEVEL)
 }
 
-func Print(fromat string, data ...interface{}) {
-	log.Printf(fromat, data)
+func Print(format string, data ...interface{}) {
+	log.Printf(format, data)
 }
 
-func Trace(fromat string, data ...interface{}) {
-	log.Tracef(fromat, data)
+func Trace(format string, data ...interface{}) {
+	log.Tracef(format, data)
 }
 
-func Debug(fromat string, data ...interface{}) {
-	log.Debugf(fromat, data)
+func Debug(format string, data ...interface{}) {
+	fmt.Println("\nFormat: ", format)
+	fmt.Println("Data: ", data)
+
+	fmt.Printf(format, data)
+	//log.Debugf(format, data)
 }
 
-func Info(fromat string, data ...interface{}) {
-	log.Infof(fromat, data)
+func Info(format string, data ...interface{}) {
+	log.Infof(format, data)
 }
 
-func Warn(fromat string, data ...interface{}) {
-	log.Warnf(fromat, data)
+func Warn(format string, data ...interface{}) {
+	log.Warnf(format, data)
 }
 
-func Error(fromat string, data ...interface{}) {
-	log.Errorf(fromat, data)
+func Error(format string, data ...interface{}) {
+	log.Errorf(format, data)
 }
 
-func Fatal(fromat string, data ...interface{}) {
-	log.Fatalf(fromat, data)
+func Fatal(format string, data ...interface{}) {
+	log.Fatalf(format, data)
 }
 
-func Panic(fromat string, data ...interface{}) {
-	log.Panicf(fromat, data)
+func Panic(format string, data ...interface{}) {
+	log.Panicf(format, data)
 }

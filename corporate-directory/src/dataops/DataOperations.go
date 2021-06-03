@@ -34,7 +34,7 @@ func PopulateEmployeeData() {
 	totalEmployeeCount := len(allEmpNames)
 	isDataExhausted := false
 
-	queue.Add(service.GetDirSvcImpl().GetCeo(), curLevel)
+	queue.Add(service.GetDirectoryService().GetCeo(), curLevel)
 
 	for !queue.IsEmpty() {
 		data := queue.Remove()

@@ -1,6 +1,7 @@
 package service
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/raviraj-srib/go-project/corporate-directory/src/logger"
@@ -19,7 +20,7 @@ func (service directoryServiceImpl) getClosetManagerUsingLCA(empId1 string, empI
 
 func (service directoryServiceImpl) getManagerFromEmpId(empId string) (*model.Manager, bool) {
 	mgr := service.searchEmployee(empId)
-	if mgr == nil || mgr.IsManager() {
+	if mgr == nil || !mgr.IsManager() {
 		logger.Error("Manager not found with id: %s", empId)
 		return nil, false
 	} else {
@@ -95,15 +96,17 @@ func getLCA(curEmp model.Node, empId1 string, empId2 string) model.Node {
 }
 
 //TODO: Revisit for approach
-func printCompleteData(emp model.Node) {
+func printCompleteData(emp model.Node, level int) {
 	if emp.IsManager() {
 		manager, _ := emp.(*model.Manager)
-		logger.Debug("ManagerId: %s  -->> Reportees: %s", manager.GetId(), printAllKeys(manager.GetReportee()))
+		mgrId := manager.GetId()
+		reportees := printAllKeys(manager.GetReportee())
+		logger.Debug("Level: %d ManagerId: %s Reportees: %s", level, mgrId, reportees)
 		for _, reportee := range manager.GetReportee() {
-			printCompleteData(reportee)
+			printCompleteData(reportee, level+1)
 		}
 	} else {
-		logger.Debug("EngineerId: %s", emp.GetId())
+		fmt.Printf("Level: %d EngineerId: %s", level, emp.GetId())
 	}
 
 }

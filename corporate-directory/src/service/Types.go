@@ -26,6 +26,9 @@ type DirectoryService interface {
 	//Remove the employee from directory, incase of leaving the organisation
 	RemoveEmployee(employeeId string)
 
+	//Print the details of employee recursively starting from ceo
+	PrintCompleteEmployeeHierarchy()
+
 	//Print the details of employee recursively starting at given employeeid
 	PrintEmployeeHierarchy(employeeId string)
 }

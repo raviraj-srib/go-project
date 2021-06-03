@@ -17,7 +17,8 @@ func (service directoryServiceImpl) AddEmployee(emp model.Node, mgrId string) {
 	mgr, ok := service.getManagerFromEmpId(mgrId)
 	if ok {
 		mgr.AddReportee(emp)
-		logger.Debug("Employee with id : %s added successfully to manager:  %s", emp.GetId(), mgrId)
+		logger.Debug("Employee with id : %s added successfully to manager: ", emp.GetId(), mgrId)
+		//service.PrintCompleteEmployeeHierarchy()
 	} else {
 		logger.Error("Manager not found with id: %s", mgrId)
 	}
@@ -69,7 +70,10 @@ func (service directoryServiceImpl) RemoveEmployee(empId string) {
 	logger.Error("Method not yet implemented")
 }
 
+func (service directoryServiceImpl) PrintCompleteEmployeeHierarchy() {
+	printCompleteData(service.ceo, 0)
+}
 func (service directoryServiceImpl) PrintEmployeeHierarchy(empId string) {
 	emp := service.searchEmployee(empId)
-	printCompleteData(emp)
+	printCompleteData(emp, 0)
 }

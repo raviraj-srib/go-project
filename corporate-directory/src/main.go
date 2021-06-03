@@ -3,25 +3,23 @@ package main
 import (
 	"fmt"
 
-	"github.com/raviraj-srib/go-project/corporate-directory/src/app"
 	"github.com/raviraj-srib/go-project/corporate-directory/src/service"
+	servicetest "github.com/raviraj-srib/go-project/corporate-directory/src/service_test"
+
+	"github.com/sirupsen/logrus"
 )
 
 func main() {
 	fmt.Println("\n************DIRECTORY APPLICATION START************\n")
 
-	app.StartApplication()
+	logrus.Errorf("Name %s Address %s", "ravi", "12155")
 
-	dirSvcImpl := service.GetDirSvcImpl()
-	ceo := dirSvcImpl.GetCeo()
-	dirSvcImpl.PrintEmployeeHierarchy(ceo.GetId())
-	testFeature(dirSvcImpl)
+	//	app.StartApplication()
+	servicetest.GenerateDummyEmployees()
+	dirService := service.GetDirectoryService()
+	ceo := dirService.GetCeo()
+	dirService.PrintEmployeeHierarchy(ceo.GetId())
 
 	fmt.Println("\n************DIRECTORY APPLICATION END************\n")
 
-}
-
-func testFeature(dirSvcImpl service.DirectoryService) {
-	fmt.Println("Closet Manager for Employees 10 and 18 is :", dirSvcImpl.GetClosestCommonManager("10", "18"))
-	fmt.Println("Closet Manager for Employees 70 and 89 is :", dirSvcImpl.GetClosestCommonManager("70", "89"))
 }
