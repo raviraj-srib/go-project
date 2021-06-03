@@ -7,12 +7,12 @@ import (
 	"github.com/raviraj-srib/go-project/corporate-directory/src/service"
 )
 
-func GenerateDummyEmployees() {
-	generateDummyEmployees()
+func GenerateDummyEmployees(path string) {
+	generateDummyEmployees(path)
 }
 
-func generateDummyEmployees() {
-	allEmpNames := fileops.ReadFile()
+func generateDummyEmployees(path string) {
+	allEmpNames := fileops.ReadFile(path)
 	empIndex := 0
 	empName := allEmpNames[empIndex]
 	serviceImpl := service.GetDirectoryService()
@@ -103,7 +103,5 @@ func generateDummyEmployees() {
 	emp = &model.Engineer{}
 	emp.Create(empName)
 	serviceImpl.AddEmployee(emp, "15")
-
-	serviceImpl.PrintCompleteEmployeeHierarchy()
 
 }

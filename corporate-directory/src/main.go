@@ -5,17 +5,17 @@ import (
 
 	"github.com/raviraj-srib/go-project/corporate-directory/src/service"
 	servicetest "github.com/raviraj-srib/go-project/corporate-directory/src/service_test"
+)
 
-	"github.com/sirupsen/logrus"
+const (
+	INPUT_FILE_PATH = "../input/employee.txt"
 )
 
 func main() {
 	fmt.Println("\n************DIRECTORY APPLICATION START************\n")
 
-	logrus.Errorf("Name %s Address %s", "ravi", "12155")
-
 	//	app.StartApplication()
-	servicetest.GenerateDummyEmployees()
+	servicetest.GenerateDummyEmployees(INPUT_FILE_PATH)
 	dirService := service.GetDirectoryService()
 	ceo := dirService.GetCeo()
 	dirService.PrintEmployeeHierarchy(ceo.GetId())

@@ -6,12 +6,10 @@ import (
 	"os"
 )
 
-const (
-	INPUT_FILE_PATH = "../input/employee.txt"
-)
 
-func ReadFile() []string {
-	file, err := os.Open(INPUT_FILE_PATH)
+
+func ReadFile(path string) []string {
+	file, err := os.Open(path)
 
 	if err != nil {
 		log.Fatalf("failed opening file: %s", err)

@@ -5,7 +5,7 @@ import (
 	"github.com/raviraj-srib/go-project/corporate-directory/src/model"
 )
 
-func (service directoryServiceImpl) GetCeo() *model.Manager {
+func (service directoryServiceImpl) GetCeo() model.Node {
 	return service.ceo
 }
 
@@ -17,7 +17,7 @@ func (service directoryServiceImpl) AddEmployee(emp model.Node, mgrId string) {
 	mgr, ok := service.getManagerFromEmpId(mgrId)
 	if ok {
 		mgr.AddReportee(emp)
-		logger.Debug("Employee with id : %s added successfully to manager: %s", emp.GetId(), mgrId)
+		logger.Trace("Employee with id : %s added successfully to manager: %s", emp.GetId(), mgrId)
 	} else {
 		logger.Error("Manager not found with id: %s", mgrId)
 	}

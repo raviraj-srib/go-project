@@ -2,7 +2,7 @@ package service
 
 import "github.com/raviraj-srib/go-project/corporate-directory/src/model"
 
-var dirService directoryServiceImpl
+var dirService DirectoryService
 
 func init() {
 	ceo := &model.Manager{}
@@ -11,6 +11,6 @@ func init() {
 }
 
 //TODO: Singleton implementation
-func GetDirectoryService() directoryServiceImpl {
+func GetDirectoryService() DirectoryService {
 	return dirService
 }

@@ -5,6 +5,9 @@ import (
 )
 
 type DirectoryService interface {
+	//Return ceo
+	GetCeo() model.Node
+
 	// Takes 2 employee id as input and return their nearest manager id in heirarchy
 	GetClosestCommonManager(employeeId1 string, employeeId2 string) string
 
@@ -34,5 +37,5 @@ type DirectoryService interface {
 }
 
 type directoryServiceImpl struct {
-	ceo *model.Manager
+	ceo model.Node
 }

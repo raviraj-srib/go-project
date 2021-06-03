@@ -34,7 +34,6 @@ func init() {
 	}
 
 	log.SetFormatter(textFormatter)
-
 	log.SetLevel(DEFAULT_LOG_LEVEL)
 }
 
